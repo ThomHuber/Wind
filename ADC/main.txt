@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <pigpio.h>
+#include <pthread.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <unistd.h>         //read/write usleep
+#include <stdlib.h>         //exit function
+#include <inttypes.h>       //uint8_t,etc
+#include <linux/i2c-dev.h>  //I2C bus definitions
+#include <sys/ioctl.h>
+#include "ADC.c"
+#include <inttypes.h>
+#include <wiringPi.h>
+
+
+int main()
+{
+    while(1)
+    {
+        ADC0();
+        ADC1();
+        ADC2();
+        ADC3();
+    }
+}

@@ -1,0 +1,184 @@
+/*========================== ADC CHANNEL A1 ==========================*/
+int ADC0()
+{
+    const float vps = 2.048/32768; //volts per step
+    int16_t raw_adc;
+    /*============== Create i2c bus ==============*/
+    int file;
+    char *bus = "/dev/i2c-1";
+
+    if ((file = open(bus, O_RDWR)) < 0)
+    {
+        printf("Failed to open the bus. \n");
+        exit(1);
+    }
+    // Get I2C device, ADS1115 I2C address is 0x48(72)
+    ioctl(file, I2C_SLAVE, 0x48);
+    /*============== Setting up ADC ==============*/
+    // Select configuration register(0x01)
+    // AINP = AIN0 and AINN = GND, +/- 2.048V
+    // Continuous conversion mode, 128 SPS(0x84, 0x83)
+    char config[3] = {0};
+    config[0] = 1;
+    config[1] = 0xC4;  //1100 0100
+    config[2] = 0x83;  //1000 0011
+    write(file, config, 3);
+    delay(500); // need delay to write
+
+    // Read 2 bytes of data from register(0x00)
+    // raw_adc msb, raw_adc lsb
+    char reg[1] = {0x00};
+    write(file, reg, 1);
+    char data[2]={0};
+
+    if(read(file, data, 2) != 2)
+    {
+        printf("Error : Input/Output Error \n");
+    }
+    else
+    {
+        // Convert the data
+        raw_adc = data[0] << 8 | data[1];	// Combine the two bytes of readBuf into a single 16 bit result
+
+        printf("Voltage Reading A0: %f (V) \n", (float)raw_adc*vps);	// Print the result to terminal, first convert from binary value to mV
+    }
+    close(file);
+    return 0;
+}
+/*========================== ADC CHANNEL A1 ==========================*/
+int ADC1()
+{
+    const float vps = 2.048/32768; //volts per step
+    int16_t raw_adc;
+    /*============== Create i2c bus ==============*/
+    int file;
+    char *bus = "/dev/i2c-1";
+    if ((file = open(bus, O_RDWR)) < 0)
+    {
+        printf("Failed to open the bus. \n");
+        exit(1);
+    }
+    // Get I2C device, ADS1115 I2C address is 0x48(72)
+    ioctl(file, I2C_SLAVE, 0x48);
+    /*============== Setting up ADC ==============*/
+    // Select configuration register(0x01)
+    // AINP = AIN1 and AINN = GND, +/- 2.048V
+    // Continuous conversion mode, 128 SPS(0x84, 0x83)
+    char config[3] = {0};
+    config[0] = 1;
+    config[1] = 0xD4;  //1101 0100
+    config[2] = 0x83;  //1000 0011
+    write(file, config, 3);
+    delay(500);
+    // Read 2 bytes of data from register(0x00)
+    // raw_adc msb, raw_adc lsb
+    char reg[1] = {0x00};
+    write(file, reg, 1);
+    char data[2]={0};
+
+    if(read(file, data, 2) != 2)
+    {
+        printf("Error : Input/Output Error \n");
+    }
+    else
+    {
+
+        // Convert the data
+        raw_adc = data[0] << 8 | data[1];	// Combine the two bytes of readBuf into a single 16 bit result
+
+        printf("Voltage Reading A1: %f (V) \n", (float)raw_adc*vps);	// Print the result to terminal, first convert from binary value to mV
+    }
+    close(file);
+    return 0;
+}
+/*========================== ADC CHANNEL A2 ==========================*/
+int ADC2()
+{
+    const float vps = 2.048/32768; //volts per step
+    int16_t raw_adc;
+    /*============== Create i2c bus ==============*/
+    int file;
+    char *bus = "/dev/i2c-1";
+    if ((file = open(bus, O_RDWR)) < 0)
+    {
+        printf("Failed to open the bus. \n");
+        exit(1);
+    }
+    // Get I2C device, ADS1115 I2C address is 0x48(72)
+    ioctl(file, I2C_SLAVE, 0x48);
+    /*============== Setting up ADC ==============*/
+    // Select configuration register(0x01)
+    // AINP = AIN2 and AINN = GND, +/- 2.048V
+    // Continuous conversion mode, 128 SPS(0x84, 0x83)
+    char config[3] = {0};
+    config[0] = 0x01;
+    config[1] = 0xE4;  //1110 1100
+    config[2] = 0x83;  //1000 0011
+    write(file, config, 3);
+    delay(500);
+    // Read 2 bytes of data from register(0x00)
+    // raw_adc msb, raw_adc lsb
+    char reg[1] = {0x00};
+    write(file, reg, 1);
+    char data[2]={0};
+
+    if(read(file, data, 2) != 2)
+    {
+        printf("Error : Input/Output Error \n");
+    }
+    else
+    {
+        // Convert the data
+        raw_adc = data[0] << 8 | data[1];	// Combine the two bytes of readBuf into a single 16 bit result
+
+        printf("Voltage Reading A2: %f (V) \n", (float)raw_adc*vps);	// Print the result to terminal, first convert from binary value to mV
+    }
+    close(file);
+    return 0;
+}
+/*========================== ADC CHANNEL A3 ==========================*/
+int ADC3()
+{
+    const float vps = 2.048/32768; //volts per step
+    int16_t raw_adc;
+    /*============== Create i2c bus ==============*/
+    int file;
+
+    char *bus = "/dev/i2c-1";
+    if ((file = open(bus, O_RDWR)) < 0)
+    {
+        printf("Failed to open the bus. \n");
+        exit(1);
+    }
+    // Get I2C device, ADS1115 I2C address is 0x48(72)
+    ioctl(file, I2C_SLAVE, 0x48);
+    /*============== Setting up ADC ==============*/
+    // Select configuration register(0x01)
+    // AINP = AIN3 and AINN = GND, +/- 2.048V
+    // Continuous conversion mode, 128 SPS(0x84, 0x83)
+    char config[3] = {0};
+    config[0] = 0x01;
+    config[1] = 0xF4; //1111 1110
+    config[2] = 0x83;  //1000 0011
+    write(file, config, 3);
+    delay(500);
+    // Read 2 bytes of data from register(0x00)
+    // raw_adc msb, raw_adc lsb
+    char reg[1] = {0x00};
+    write(file, reg, 1);
+    char data[2]={0};
+
+    if(read(file, data, 2) != 2)
+    {
+        printf("Error : Input/Output Error \n");
+    }
+    else
+    {
+        // Convert the data
+        raw_adc = data[0] << 8 | data[1];	// Combine the two bytes of readBuf into a single 16 bit result
+
+        printf("Voltage Reading A3: %f (V) \n", (float)raw_adc*vps);	// Print the result to terminal, first convert from binary value to mV
+    }
+    close(file);
+    return 0;
+}
